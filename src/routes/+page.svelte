@@ -48,7 +48,6 @@
 <section class="intro-section" bind:this={introSection}>
 	<div class="intro-content">
 		<div class="intro-text">
-			<h2 class="intro-title">Follow the Journey</h2>
 			<p class="intro-description">
 				From the pristine mountain peaks where water first flows, 
 				to the vast delta where rivers meet the sea. 
@@ -101,9 +100,6 @@
 <section class="horizontal-scroll-section" bind:this={horizontalScrollSection}>
 	<div class="scroll-container" bind:this={scrollContainer}>
 		<div class="landscape-3d" style="transform: translateX({-horizontalScroll * 200}px) translateZ({horizontalScroll * -100}px) rotateY({horizontalScroll * 5}deg);">
-			<div class="landscape-layer layer-back"></div>
-			<div class="landscape-layer layer-mid"></div>
-			<div class="landscape-layer layer-front"></div>
 			
 			<!-- Labels that come down as you scroll -->
 			<div class="label label-1" style="transform: translateY({Math.max(-150, Math.min(0, horizontalScroll * 300 - 150))}px); opacity: {Math.max(0, Math.min(1, (horizontalScroll - 0.3) * 2))};">
