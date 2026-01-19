@@ -70,7 +70,7 @@
 				style="transform: translateY({scrollY * 0.3}px) scale({1 + scrollY * 0.0003});"
 			/>
 		</div>
-		<p class="subtitle">Een mooie subtitel</p>
+		<p class="subtitle">A journey from source to sea</p>
 	</div>
 </section>
 
