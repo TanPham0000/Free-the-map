@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { Canvas } from '@threlte/core';
+    import Scene from '$lib/components/Scene.svelte';
 
 	let introSection: HTMLElement;
 	let titleSection: HTMLElement;
@@ -49,9 +51,7 @@
 	<div class="intro-content">
 		<div class="intro-text">
 			<p class="intro-description">
-				From the pristine mountain peaks where water first flows, 
-				to the vast delta where rivers meet the sea. 
-				Experience the journey of water through our interconnected world.
+				Een mooie introductie over het project.
 			</p>
 		</div>
 	</div>
@@ -70,22 +70,8 @@
 				style="transform: translateY({scrollY * 0.3}px) scale({1 + scrollY * 0.0003});"
 			/>
 		</div>
-		<p class="subtitle">A journey from source to sea</p>
+		<p class="subtitle">Een mooie subtitel</p>
 	</div>
-</section>
-
-<!-- Cloud Bank Section -->
-<section class="cloud-section" bind:this={cloudSection}>
-	<div class="cloud-layer cloud-layer-1" style="transform: translateX({scrollY * 0.1}px);"></div>
-	<div class="cloud-layer cloud-layer-2" style="transform: translateX({-scrollY * 0.15}px);"></div>
-	<div class="cloud-layer cloud-layer-3" style="transform: translateX({scrollY * 0.2}px);"></div>
-</section>
-
-<!-- Foggy Sky Section -->
-<section class="fog-section" bind:this={fogSection}>
-	<div class="fog-layer fog-1" style="opacity: {0.3 + (scrollY % 1000) / 2000}; transform: translateY({scrollY * 0.1}px);"></div>
-	<div class="fog-layer fog-2" style="opacity: {0.2 + (scrollY % 800) / 2000}; transform: translateY({-scrollY * 0.08}px);"></div>
-	<div class="fog-layer fog-3" style="opacity: {0.25 + (scrollY % 1200) / 2000}; transform: translateY({scrollY * 0.12}px);"></div>
 </section>
 
 <!-- Mountain Top Section -->
@@ -98,32 +84,16 @@
 
 <!-- Horizontal Scroll 3D Landscape Section -->
 <section class="horizontal-scroll-section" bind:this={horizontalScrollSection}>
-	<div class="scroll-container" bind:this={scrollContainer}>
-		<div class="landscape-3d" style="transform: translateX({-horizontalScroll * 200}px) translateZ({horizontalScroll * -100}px) rotateY({horizontalScroll * 5}deg);">
-			
-			<!-- Labels that come down as you scroll -->
-			<div class="label label-1" style="transform: translateY({Math.max(-150, Math.min(0, horizontalScroll * 300 - 150))}px); opacity: {Math.max(0, Math.min(1, (horizontalScroll - 0.3) * 2))};">
-				<div class="label-content">
-					<h3>Source</h3>
-					<p>The beginning</p>
-				</div>
-			</div>
-			
-			<div class="label label-2" style="transform: translateY({Math.max(-200, Math.min(0, horizontalScroll * 350 - 200))}px); opacity: {Math.max(0, Math.min(1, (horizontalScroll - 0.4) * 2))};">
-				<div class="label-content">
-					<h3>Flow</h3>
-					<p>The journey</p>
-				</div>
-			</div>
-			
-			<div class="label label-3" style="transform: translateY({Math.max(-250, Math.min(0, horizontalScroll * 400 - 250))}px); opacity: {Math.max(0, Math.min(1, (horizontalScroll - 0.5) * 2))};">
-				<div class="label-content">
-					<h3>Delta</h3>
-					<p>The destination</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="scroll-container">
+        <Canvas>
+            <Scene progress={horizontalScroll} />
+        </Canvas>
+        <div class="labels-overlay">
+            <div class="label" style="opacity: {horizontalScroll > 0.2 ? 1 : 0}">
+                <h3>The Alps</h3>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- River Journey Sections (placeholder for future content) -->
@@ -155,7 +125,7 @@
 
 	.intro-content {
 		max-width: 800px;
-		text-align: center;
+		text-align: center;x
 		opacity: 0;
 		animation: fadeInUp 1.2s ease-out 0.3s forwards;
 	}
@@ -247,83 +217,6 @@
 		opacity: 0.85;
 	}
 
-	/* Cloud Bank Section */
-	.cloud-section {
-		position: relative;
-		min-height: 100vh;
-		background: linear-gradient(180deg, #0a1520 0%, #2a3a4a 50%, #1a2530 100%);
-		overflow: hidden;
-		z-index: 3;
-	}
-
-	.cloud-layer {
-		position: absolute;
-		width: 120%;
-		height: 100%;
-		background-image: 
-			radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-			radial-gradient(ellipse at 60% 60%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-			radial-gradient(ellipse at 80% 40%, rgba(255, 255, 255, 0.12) 0%, transparent 50%);
-		background-size: 100% 100%;
-		opacity: 0.6;
-		will-change: transform;
-	}
-
-	.cloud-layer-1 {
-		bottom: 0;
-		left: -10%;
-		animation: cloudFloat1 20s infinite ease-in-out;
-	}
-
-	.cloud-layer-2 {
-		bottom: 20%;
-		left: -10%;
-		animation: cloudFloat2 25s infinite ease-in-out;
-		opacity: 0.4;
-	}
-
-	.cloud-layer-3 {
-		bottom: 40%;
-		left: -10%;
-		animation: cloudFloat3 30s infinite ease-in-out;
-		opacity: 0.3;
-	}
-
-	/* Foggy Sky Section */
-	.fog-section {
-		position: relative;
-		min-height: 100vh;
-		background: linear-gradient(180deg, #1a2530 0%, #3a4a5a 50%, #2a3540 100%);
-		overflow: hidden;
-		z-index: 4;
-	}
-
-	.fog-layer {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		background: 
-			radial-gradient(ellipse 80% 50% at 30% 40%, rgba(200, 220, 240, 0.3) 0%, transparent 70%),
-			radial-gradient(ellipse 70% 40% at 70% 60%, rgba(180, 210, 230, 0.25) 0%, transparent 60%);
-		will-change: transform, opacity;
-		filter: blur(40px);
-	}
-
-	.fog-1 {
-		top: 0;
-		animation: fogDrift1 15s infinite ease-in-out;
-	}
-
-	.fog-2 {
-		top: 30%;
-		animation: fogDrift2 18s infinite ease-in-out;
-	}
-
-	.fog-3 {
-		top: 60%;
-		animation: fogDrift3 20s infinite ease-in-out;
-	}
-
 	/* Mountain Top Section */
 	.mountain-top-section {
 		position: relative;
@@ -373,93 +266,31 @@
 	}
 
 	.scroll-container {
-		position: sticky;
-		top: 0;
-		height: 100vh;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: flex-start;
-		padding-left: 10vw;
-	}
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        width: 100vw;
+        background: #050a0f; /* Match 3D fog color */
+        overflow: hidden;
+    }
 
-	.landscape-3d {
-		position: relative;
-		width: 300vw;
-		height: 80vh;
-		transform-style: preserve-3d;
-		will-change: transform;
-	}
-
-	.landscape-layer {
-		position: absolute;
+	.scroll-container :global(canvas) {
+		display: block;
 		width: 100%;
 		height: 100%;
-		border-radius: 20px;
 	}
 
-	.layer-back {
-		background: linear-gradient(180deg, #3a4a5a 0%, #2a3a4a 50%, #1a2a3a 100%);
-		transform: translateZ(-200px) scale(1.2);
-		opacity: 0.6;
-	}
-
-	.layer-mid {
-		background: linear-gradient(180deg, #4a5a6a 0%, #3a4a5a 50%, #2a3a4a 100%);
-		transform: translateZ(-100px) scale(1.1);
-		opacity: 0.8;
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-	}
-
-	.layer-front {
-		background: linear-gradient(180deg, #5a6a7a 0%, #4a5a6a 50%, #3a4a5a 100%);
-		transform: translateZ(0) scale(1);
-		box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-		background-image: 
-			radial-gradient(circle at 20% 80%, rgba(100, 150, 200, 0.3) 0%, transparent 50%),
-			radial-gradient(circle at 60% 70%, rgba(80, 130, 180, 0.2) 0%, transparent 50%);
-	}
-
-	.label {
+	.labels-overlay {
 		position: absolute;
-		width: 200px;
-		padding: 1.5rem;
-		background: rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-		border-radius: 12px;
-		will-change: transform, opacity;
-		transition: opacity 0.3s ease;
-	}
-
-	.label-1 {
-		left: 15%;
-		top: 20%;
-	}
-
-	.label-2 {
-		left: 45%;
-		top: 35%;
-	}
-
-	.label-3 {
-		left: 75%;
-		top: 50%;
-	}
-
-	.label-content h3 {
-		font-size: 1.5rem;
-		color: rgba(255, 255, 255, 0.95);
-		margin: 0 0 0.5rem 0;
-		font-weight: 600;
-		letter-spacing: 0.1em;
-	}
-
-	.label-content p {
-		font-size: 0.9rem;
-		color: rgba(255, 255, 255, 0.7);
-		margin: 0;
-		font-weight: 300;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		z-index: 10;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	/* River Journey Section */
