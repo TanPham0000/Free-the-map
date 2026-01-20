@@ -3,11 +3,11 @@
 	import { Canvas } from '@threlte/core';
     import Scene from '$lib/components/Scene.svelte';
 
+	import clouds from '$lib/assets/Clouds.png';
+	import foregroundMountain from '$lib/assets/Foreground_mountain.png';
+
 	let introSection: HTMLElement;
 	let titleSection: HTMLElement;
-	let mountainImage: HTMLElement;
-	let cloudSection: HTMLElement;
-	let fogSection: HTMLElement;
 	let mountainTopSection: HTMLElement;
 	let horizontalScrollSection: HTMLElement;
 	let scrollContainer: HTMLElement;
@@ -49,11 +49,9 @@
 <!-- Introduction Section -->
 <section class="intro-section" bind:this={introSection}>
 	<div class="intro-content">
-		<div class="intro-text">
 			<p class="intro-description">
 				Een mooie introductie over het project.
 			</p>
-		</div>
 	</div>
 </section>
 
@@ -61,25 +59,25 @@
 <section class="title-section" bind:this={titleSection}>
 	<div class="title-content">
 		<h1 class="main-title">Free the Map</h1>
-		<div class="mountain-container">
-			<img 
-				bind:this={mountainImage}
-				class="mountain-image"
-				src="/mountain-cutout.png" 
-				alt="Mountain silhouette"
-				style="transform: translateY({scrollY * 0.3}px) scale({1 + scrollY * 0.0003});"
-			/>
-		</div>
 		<p class="subtitle">A journey from source to sea</p>
 	</div>
 </section>
 
 <!-- Mountain Top Section -->
 <section class="mountain-top-section" bind:this={mountainTopSection}>
-	<div class="mountain-top-container">
-		<div class="mountain-peak" style="transform: translateY({scrollY * 0.2}px);"></div>
-		<div class="sky-gradient"></div>
-	</div>
+		<img 
+			class="parallax-layer clouds" 
+			src={clouds} 
+			alt="Clouds"
+			style="transform: translateY({scrollY * -0.3}px);"
+		/>
+		<!-- Foreground mountain layer -->
+		<img 
+			class="parallax-layer foreground-mountain" 
+			src={foregroundMountain} 
+			alt="Foreground mountain"
+			style="transform: translateY({scrollY * -0.5}px);"
+		/>
 </section>
 
 <!-- Horizontal Scroll 3D Landscape Section -->
@@ -118,25 +116,14 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(180deg, #000 0%, #0a0a1a 50%, #000 100%);
 		padding: 4rem 2rem;
 		z-index: 1;
 	}
 
 	.intro-content {
 		max-width: 800px;
-		text-align: center;x
-		opacity: 0;
+		text-align: center;
 		animation: fadeInUp 1.2s ease-out 0.3s forwards;
-	}
-
-	.intro-title {
-		font-size: clamp(2.5rem, 5vw, 4rem);
-		font-weight: 300;
-		letter-spacing: 0.1em;
-		color: rgba(255, 255, 255, 0.95);
-		margin-bottom: 2rem;
-		text-transform: uppercase;
 	}
 
 	.intro-description {
@@ -153,19 +140,10 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(180deg, #000 0%, #0a1520 100%);
 		overflow: hidden;
-		z-index: 2;
 	}
 
 	.title-content {
-		position: relative;
-		width: 100%;
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
 		text-align: center;
 	}
 
@@ -193,58 +171,37 @@
 		animation: fadeIn 2s ease-out 0.5s both;
 	}
 
-	.mountain-container {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 60%;
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
-		z-index: 2;
+	img {
+		user-select: none;
 		pointer-events: none;
-	}
-
-	.mountain-image {
 		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center bottom;
-		transform-origin: center bottom;
-		will-change: transform;
-		filter: brightness(0.9) contrast(1.1);
-		opacity: 0.85;
+		height: auto;
 	}
 
 	/* Mountain Top Section */
 	.mountain-top-section {
 		position: relative;
 		min-height: 100vh;
-		background: linear-gradient(180deg, #2a3540 0%, #1a2530 100%);
-		overflow: hidden;
 		z-index: 5;
 	}
 
-	.mountain-top-container {
-		position: relative;
+	.parallax-layer {
+		position: absolute;
 		width: 100%;
-		height: 100vh;
-		display: flex;
-		align-items: flex-end;
-		justify-content: center;
+		height: auto;
+		object-fit: cover;
+		will-change: transform;
+		pointer-events: none;
 	}
 
-	.mountain-peak {
-		position: absolute;
-		bottom: 0;
+	.clouds {
+		filter: blur(10px);
+		z-index: 5;
 		width: 100%;
-		height: 70%;
-		background: 
-			linear-gradient(135deg, transparent 30%, #1a1f2a 30%, #1a1f2a 35%, transparent 35%),
-			linear-gradient(45deg, transparent 65%, #252a35 65%, #252a35 70%, transparent 70%);
-		clip-path: polygon(0% 100%, 25% 40%, 50% 60%, 75% 35%, 100% 100%);
-		will-change: transform;
+	}
+
+	.foreground-mountain {
+		z-index: 3;
 	}
 
 	.sky-gradient {
@@ -253,6 +210,7 @@
 		width: 100%;
 		height: 30%;
 		background: linear-gradient(180deg, #4a5a6a 0%, #2a3540 100%);
+		z-index: 0;
 	}
 
 	/* Horizontal Scroll 3D Landscape Section */
@@ -339,45 +297,11 @@
 		}
 	}
 
-	@keyframes cloudFloat1 {
-		0%, 100% { transform: translateX(0); }
-		50% { transform: translateX(30px); }
-	}
-
-	@keyframes cloudFloat2 {
-		0%, 100% { transform: translateX(0); }
-		50% { transform: translateX(-40px); }
-	}
-
-	@keyframes cloudFloat3 {
-		0%, 100% { transform: translateX(0); }
-		50% { transform: translateX(25px); }
-	}
-
-	@keyframes fogDrift1 {
-		0%, 100% { transform: translateY(0) translateX(0); }
-		50% { transform: translateY(-20px) translateX(30px); }
-	}
-
-	@keyframes fogDrift2 {
-		0%, 100% { transform: translateY(0) translateX(0); }
-		50% { transform: translateY(15px) translateX(-25px); }
-	}
-
-	@keyframes fogDrift3 {
-		0%, 100% { transform: translateY(0) translateX(0); }
-		50% { transform: translateY(-10px) translateX(20px); }
-	}
-
 	/* Responsive adjustments */
 	@media (max-width: 768px) {
 		.intro-section,
 		.title-section {
 			padding: 2rem 1rem;
-		}
-
-		.mountain-container {
-			height: 50%;
 		}
 	}
 </style>
