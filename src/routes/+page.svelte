@@ -102,11 +102,17 @@
 </section>
 
 <style>
+	
 	:global(body) {
 		background: #000;
 		margin: 0;
 		padding: 0;
 		overflow-x: hidden;
+	}
+
+	h1 {
+		font-family: 'times new roman', serif;
+		font-weight: 700;
 	}
 
 	/* Introduction Section */
