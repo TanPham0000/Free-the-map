@@ -2,21 +2,41 @@
 	import { onMount } from 'svelte';
 	import { Canvas } from '@threlte/core';
     import Scene from '$lib/components/Scene.svelte';
+	
 
 	import clouds from '$lib/assets/Clouds.png';
 	import foregroundMountain from '$lib/assets/Foreground_mountain.png';
+	import rhineFull from '$lib/assets/Rhine_full.png';
 
 	let introSection: HTMLElement;
 	let titleSection: HTMLElement;
 	let mountainTopSection: HTMLElement;
+	let rhineFullSection: HTMLElement;
 	let horizontalScrollSection: HTMLElement;
-	let scrollContainer: HTMLElement;
 	
 	let scrollY = $state(0);
 	let horizontalScroll = $state(0);
+	let rhineZoomProgress = $state(0);
 
 	function handleScroll() {
 		scrollY = window.scrollY;
+		
+		// Calculate zoom progress for Rhine full section (zoom to 140% at bottom)
+		if (rhineFullSection) {
+			const rect = rhineFullSection.getBoundingClientRect();
+			const sectionTop = rect.top;
+			const sectionHeight = rect.height;
+			const viewportHeight = window.innerHeight;
+			
+			// When section is in viewport, calculate zoom progress
+			if (sectionTop < viewportHeight && sectionTop > -sectionHeight) {
+				rhineZoomProgress = Math.max(0, Math.min(1, (viewportHeight - sectionTop) / (viewportHeight + sectionHeight)));
+			} else if (sectionTop <= -sectionHeight) {
+				rhineZoomProgress = 1;
+			} else {
+				rhineZoomProgress = 0;
+			}
+		}
 		
 		// Calculate horizontal scroll progress for 3D landscape section
 		if (horizontalScrollSection) {
@@ -37,6 +57,10 @@
 		}
 	}
 
+	// Calculate zoom scale (from 1.0 to 1.4) and transform origin (focus on bottom)
+	let rhineScale = $derived(1.0 + (rhineZoomProgress * 0.4)); // 1.0 to 1.4 (140%)
+	let rhineTransform = $derived(`scale(${rhineScale})`);
+
 	onMount(() => {
 		window.addEventListener('scroll', handleScroll, { passive: true });
 		handleScroll(); // Initial call
@@ -50,8 +74,9 @@
 <section class="intro-section" bind:this={introSection}>
 	<div class="intro-content">
 			<p class="intro-description">
-				Een mooie introductie over het project.
+				Here I am, a single drop of rain, falling onto a Swiss mountain. I merge with the water, and slowly I become
 			</p>
+			<h2 class="intro-description">The Rhine</h2>
 	</div>
 </section>
 
@@ -77,32 +102,25 @@
 			src={foregroundMountain} 
 			alt="Foreground mountain"
 			style="transform: translateY({scrollY * -0.5}px);"
-		/>
+		/>	
+</section>
+<!-- Rhine Full Image Section - Zooms to 140% focusing on bottom -->
+<section class="rhine-full-section" bind:this={rhineFullSection}>
+	<div class="rhine-image-container" style="transform: {rhineTransform};">
+		<img src={rhineFull} alt="Rhine Full" />
+	</div>
 </section>
 
-<!-- Horizontal Scroll 3D Landscape Section -->
+<!-- 3D Landscape Section -->
 <section class="horizontal-scroll-section" bind:this={horizontalScrollSection}>
-    <div class="scroll-container">
-        <Canvas>
-            <Scene progress={horizontalScroll} />
-        </Canvas>
-        <div class="labels-overlay">
-            <div class="label" style="opacity: {horizontalScroll > 0.2 ? 1 : 0}">
-                <h3>The Alps</h3>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- River Journey Sections (placeholder for future content) -->
-<section class="river-journey">
-	<div class="journey-content">
-		<!-- This section will be expanded with river journey content -->
+	<div class="scroll-container">
+		<Canvas>
+			<Scene progress={horizontalScroll} />
+		</Canvas>
 	</div>
 </section>
 
 <style>
-	
 	:global(body) {
 		background: #000;
 		margin: 0;
@@ -111,8 +129,15 @@
 	}
 
 	h1 {
-		font-family: 'times new roman', serif;
+		font-family: 'Times New Roman', Times, serif;
 		font-weight: 700;
+		color: white;
+	}
+
+	h2 {
+		font-family: 'Times New Roman', Times, serif;
+		font-weight: 400;
+		color:white;
 	}
 
 	/* Introduction Section */
@@ -122,7 +147,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding: 4rem 2rem;
 		z-index: 1;
 	}
 
@@ -133,8 +157,7 @@
 	}
 
 	.intro-description {
-		font-size: clamp(1rem, 2vw, 1.25rem);
-		line-height: 1.8;
+		line-height: 1.4;
 		color: rgba(255, 255, 255, 0.7);
 		font-weight: 300;
 	}
@@ -210,65 +233,52 @@
 		z-index: 3;
 	}
 
-	.sky-gradient {
-		position: absolute;
-		top: 0;
-		width: 100%;
-		height: 30%;
-		background: linear-gradient(180deg, #4a5a6a 0%, #2a3540 100%);
-		z-index: 0;
+	/* Rhine Full Section - Zoom to 140% */
+	.rhine-full-section {
+		position: relative;
+		z-index: 5;
+		overflow: hidden;
+		background: #000;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+
 	}
 
-	/* Horizontal Scroll 3D Landscape Section */
+	.rhine-image-container {
+		position: sticky;
+		bottom: 0;
+		width: 100%;
+		height: 100vh;
+		transform-origin: center bottom;
+		will-change: transform;
+		transition: transform 0.1s ease-out;
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+	}
+
+	.rhine-image-container img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center bottom;
+	}
+
+	/* 3D Landscape Section */
 	.horizontal-scroll-section {
 		position: relative;
 		min-height: 300vh;
-		background: linear-gradient(180deg, #1a2530 0%, #0a1520 100%);
+		
 		overflow: hidden;
 		z-index: 6;
 		perspective: 1000px;
 	}
 
-	.scroll-container {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        width: 100vw;
-        background: #050a0f; /* Match 3D fog color */
-        overflow: hidden;
-    }
-
 	.scroll-container :global(canvas) {
 		display: block;
 		width: 100%;
 		height: 100%;
-	}
-
-	.labels-overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-		z-index: 10;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	/* River Journey Section */
-	.river-journey {
-		position: relative;
-		min-height: 100vh;
-		background: linear-gradient(180deg, #0a1520 0%, #000 100%);
-		padding: 4rem 2rem;
-		z-index: 1;
-	}
-
-	.journey-content {
-		max-width: 1200px;
-		margin: 0 auto;
 	}
 
 	/* Animations */
