@@ -37,7 +37,9 @@
       attributionControl: false,
       // PERFORMANCE BOOST: Prefetch tiles to prevent white gaps
       refreshExpiredTiles: false,
-      maxTileCacheSize: 20
+      maxTileCacheSize: 20,
+      minZoom: 10, // Prevents the map from ever trying to load the whole of Switzerland
+      maxZoom: 16  // Prevents it from loading ultra-heavy street-level detail
     });
 
     map.on('style.load', () => {
@@ -46,19 +48,33 @@
         'type': 'raster-dem',
         'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
         'tileSize': 128,
-        'maxzoom': 12
+        'maxzoom': 11
       });
       map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
       // 2. Add Atmosphere/Fog for "Nice" visuals
       map.setFog({
-        'range': [0.5, 2], // Distance range for fog effect low to high
+        'range': [-0.5, 1], // Distance range for fog effect low to high
         'color': 'white',
-        'horizon-blend': 0.2
+        'horizon-blend': 0.3
       });
+      map.setLight({
+    anchor: 'viewport',
+    color: '#white',
+    intensity: 0.2 // Very low intensity for a moody, cloudy day
+    });
+    map.addLayer({
+    'id': 'cloud-layer',
+    'type': 'background',
+    'paint': {
+        'background-color': '#ffffff',
+        'background-opacity': 0.4 // Makes everything look like it's under a cloud blanket
+    }
+  });
       // 3. Setup Scroll Animation
       initScrollAnimation();
     });
+    
   });
 
   function initScrollAnimation() {

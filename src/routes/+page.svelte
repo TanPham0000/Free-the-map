@@ -2,6 +2,7 @@
 	import TitleParallax from '$lib/components/TitleParallax.svelte';
 	import RhineFull from '$lib/components/RhineFull.svelte';
 	import RhineTerrain from '$lib/components/RhineTerrain.svelte';
+  import RhineImageZoom from '$lib/components/RhineImageZoom.svelte';
 </script>
 
 <!-- Introduction Section -->
@@ -22,6 +23,10 @@
 <RhineFull />
 <section class="rhine-terrain-section">
 	<RhineTerrain />
+</section>
+
+<section>
+	<RhineImageZoom />
 </section>
 
 
