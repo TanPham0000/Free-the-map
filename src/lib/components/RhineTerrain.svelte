@@ -4,6 +4,7 @@
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
   import 'mapbox-gl/dist/mapbox-gl.css';
+  import { VITE_MAPBOX_API_KEY } from '$lib/data/apiKey.js';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -11,22 +12,37 @@
   let mapContainer;
 
   // The waypoints for our fly-through
+//   const flightPath = [
+//   { name: "Start Rhine (Lai da Tuma)", center: [8.6558, 46.6403], zoom: 15.5, pitch: 65, bearing: -30 },
+//   { name: "Point 1", center: [8.6667, 46.6344], zoom: 15.8, pitch: 70, bearing: 20 },
+//   { name: "Point 3", center: [8.6728, 46.6325], zoom: 16.0, pitch: 75, bearing: 60 },
+//   { name: "Point 4", center: [8.6753, 46.6322], zoom: 16.2, pitch: 80, bearing: 80 },
+//   { name: "Point 6", center: [8.6864, 46.6356], zoom: 15.5, pitch: 70, bearing: 70 },
+//   { name: "Point 8", center: [8.7064, 46.6539], zoom: 14.5, pitch: 55, bearing: 30 },
+//   { name: "Point 9", center: [8.7356, 46.6628], zoom: 14.0, pitch: 50, bearing: 45 }
+// ];
   const flightPath = [
-    { center: [8.654, 46.638], zoom: 12, pitch: 45, bearing: 0 },   // Start high
-    { center: [8.654, 46.638], zoom: 14.5, pitch: 70, bearing: -40 }, // Zoom into Lake
-    { center: [8.670, 46.642], zoom: 14, pitch: 80, bearing: 60 }    // Follow the stream
+    { center: [8.654, 46.638], zoom: 16.5, pitch: 85, bearing: -30 },   // Start high
+    { center: [8.654, 46.638], zoom: 17, pitch: 70, bearing: -40 }, // Zoom into Lake
+    { center: [8.670, 46.642], zoom: 14, pitch: 80, bearing: 60 }, // Follow the stream
+    { center: [8.700, 46.650], zoom: 13, pitch: 60, bearing: 30 }  // Move downstream  
   ];
 
   onMount(() => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoidGFucGhhbTExMSIsImEiOiJjbGxtbGs0N2wxejJ2M2p0NjB6Y3VkemRrIn0.Z-ixfCD8ebpm1xGXt5Y4lQ';
+    mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
 
     map = new mapboxgl.Map({
       container: mapContainer,
-      style: 'mapbox://styles/mapbox/satellite-v9', // Satellite is best for mountains
+      style: 'mapbox://styles/mapbox/satellite-v9?optimize=true', // Satellite is best for mountains
       center: flightPath[0].center,
       zoom: flightPath[0].zoom,
       pitch: flightPath[0].pitch,
-      interactive: false 
+      bearing: flightPath[0].bearing,
+      interactive: false,
+      attributionControl: false,
+      // PERFORMANCE BOOST: Prefetch tiles to prevent white gaps
+      refreshExpiredTiles: false,
+      maxTileCacheSize: 20
     });
 
     map.on('style.load', () => {
@@ -34,18 +50,17 @@
       map.addSource('mapbox-dem', {
         'type': 'raster-dem',
         'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 512,
-        'maxzoom': 14
+        'tileSize': 128,
+        'maxzoom': 12
       });
       map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
       // 2. Add Atmosphere/Fog for "Nice" visuals
       map.setFog({
-        'range': [0.5, 10],
+        'range': [0.5, 2], // Distance range for fog effect low to high
         'color': 'white',
-        'horizon-blend': 0.1
+        'horizon-blend': 0.2
       });
-
       // 3. Setup Scroll Animation
       initScrollAnimation();
     });
@@ -56,8 +71,8 @@
       scrollTrigger: {
         trigger: ".scroll-area",
         start: "top top",
-        end: "bottom bottom",
-        scrub: 1 // Smoothness of the scroll follow
+        scrub: 3, // Increasing this from 1 to 2 or 3 gives the map "breathing room" to catch up
+        end: "bottom bottom"
       }
     });
 
