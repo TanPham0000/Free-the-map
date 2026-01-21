@@ -9,15 +9,18 @@
 
 <style>
 	.rhine-full-section {
-		
+		animation: ScaleIn 1.2s ease-out 0.3s forwards;
 	}
 	
-	@keyframes { 
+	@keyframes ScaleIn { 
 		from {
 			opacity:0;
-			transfrom-scale: 0.5;
+			transfrom: scale(0.5);
 		}
-		to
+		to {
+			opacity: 1;
+			transform: scale(2);
+		}
 	}
 </style>
 

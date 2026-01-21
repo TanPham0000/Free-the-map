@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TitleParallax from '$lib/components/TitleParallax.svelte';
 	import RhineFull from '$lib/components/RhineFull.svelte';
-
+	import RhineTerrain from '$lib/components/RhineTerrain.svelte';
 	let introSection: HTMLElement;
 </script>
 
@@ -16,7 +16,15 @@
 </section>
 
 <TitleParallax />
+<section>
+	<h3>Content goes here</h3>
+
+</section>
 <RhineFull />
+<section class="rhine-terrain-section">
+	<RhineTerrain />
+</section>
+
 
 <style>
 	:global(body) {
@@ -31,6 +39,7 @@
 		font-weight: 400;
 		color:white;
 	}
+
 
 	/* Introduction Section */
 	.intro-section {
@@ -53,7 +62,7 @@
 		color: rgba(255, 255, 255);
 		font-weight: 300;
 	}
-	
+
 	/* Animations */
 	@keyframes fadeInUp {
 		from {
