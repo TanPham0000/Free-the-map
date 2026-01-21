@@ -23,7 +23,12 @@
   ];
 
   onMount(() => {
-    mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
+    if (!VITE_MAPBOX_API_KEY) {
+      console.error('Mapbox API key not found');
+      return;
+    }
+    const apiKey = MAPBOX_API_KEY;
+    mapboxgl.accessToken = apiKey;
 
     map = new mapboxgl.Map({
       container: mapContainer,
