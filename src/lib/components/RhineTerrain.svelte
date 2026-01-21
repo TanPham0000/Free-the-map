@@ -4,7 +4,7 @@
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
   import 'mapbox-gl/dist/mapbox-gl.css';
-  import { VITE_MAPBOX_API_KEY } from '$lib/data/apiKey.js';
+  import { VITE_MAPBOX_API_KEY } from '../config/apiKey.js';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -24,11 +24,11 @@
 
   onMount(() => {
     if (!VITE_MAPBOX_API_KEY) {
-      console.error('Mapbox API key not found');
+      console.error('Mapbox API key is missing. Check your .env file.');
       return;
     }
-    const apiKey = MAPBOX_API_KEY;
-    mapboxgl.accessToken = apiKey;
+    
+    mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
 
     map = new mapboxgl.Map({
       container: mapContainer,
