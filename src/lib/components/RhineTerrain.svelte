@@ -4,7 +4,10 @@
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
   import 'mapbox-gl/dist/mapbox-gl.css';
+<<<<<<< HEAD
   import { VITE_MAPBOX_API_KEY } from '../config/apiKey.js';
+=======
+>>>>>>> parent of 8c34dac (3d map update)
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -14,34 +17,35 @@
   let mapContainer;
 
   // The waypoints for our fly-through
+<<<<<<< HEAD
   /** @type {Array<{center: [number, number], zoom: number, pitch: number, bearing: number}>} */
+=======
+>>>>>>> parent of 8c34dac (3d map update)
   const flightPath = [
-    { center: [8.654, 46.638], zoom: 16.5, pitch: 85, bearing: -30 },   // Start high
-    { center: [8.654, 46.638], zoom: 17, pitch: 70, bearing: -40 }, // Zoom into Lake
-    { center: [8.670, 46.642], zoom: 14, pitch: 80, bearing: 60 }, // Follow the stream
-    { center: [8.700, 46.650], zoom: 13, pitch: 60, bearing: 30 }  // Move downstream  
+    { center: [8.654, 46.638], zoom: 12, pitch: 45, bearing: 0 },   // Start high
+    { center: [8.654, 46.638], zoom: 14.5, pitch: 70, bearing: -40 }, // Zoom into Lake
+    { center: [8.670, 46.642], zoom: 14, pitch: 80, bearing: 60 }    // Follow the stream
   ];
 
   onMount(() => {
+<<<<<<< HEAD
     if (!VITE_MAPBOX_API_KEY) {
       console.error('Mapbox API key is missing. Check your .env file.');
       return;
     }
     
     mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
+=======
+    mapboxgl.accessToken = 'pk.eyJ1IjoidGFucGhhbTExMSIsImEiOiJjbGxtbGs0N2wxejJ2M2p0NjB6Y3VkemRrIn0.Z-ixfCD8ebpm1xGXt5Y4lQ';
+>>>>>>> parent of 8c34dac (3d map update)
 
     map = new mapboxgl.Map({
       container: mapContainer,
-      style: 'mapbox://styles/mapbox/satellite-v9?optimize=true', // Satellite is best for mountains
+      style: 'mapbox://styles/mapbox/satellite-v9', // Satellite is best for mountains
       center: flightPath[0].center,
       zoom: flightPath[0].zoom,
       pitch: flightPath[0].pitch,
-      bearing: flightPath[0].bearing,
-      interactive: false,
-      attributionControl: false,
-      // PERFORMANCE BOOST: Prefetch tiles to prevent white gaps
-      refreshExpiredTiles: false,
-      maxTileCacheSize: 20
+      interactive: false 
     });
 
     map.on('style.load', () => {
@@ -49,17 +53,18 @@
       map.addSource('mapbox-dem', {
         'type': 'raster-dem',
         'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 128,
-        'maxzoom': 12
+        'tileSize': 512,
+        'maxzoom': 14
       });
       map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
       // 2. Add Atmosphere/Fog for "Nice" visuals
       map.setFog({
-        'range': [0.5, 2], // Distance range for fog effect low to high
+        'range': [0.5, 10],
         'color': 'white',
-        'horizon-blend': 0.2
+        'horizon-blend': 0.1
       });
+
       // 3. Setup Scroll Animation
       initScrollAnimation();
     });
@@ -70,8 +75,8 @@
       scrollTrigger: {
         trigger: ".scroll-area",
         start: "top top",
-        scrub: 3, // Increasing this from 1 to 2 or 3 gives the map "breathing room" to catch up
-        end: "bottom bottom"
+        end: "bottom bottom",
+        scrub: 1 // Smoothness of the scroll follow
       }
     });
 
