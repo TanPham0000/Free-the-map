@@ -2,11 +2,10 @@
 	import TitleParallax from '$lib/components/TitleParallax.svelte';
 	import RhineFull from '$lib/components/RhineFull.svelte';
 	import RhineTerrain from '$lib/components/RhineTerrain.svelte';
-	let introSection: HTMLElement;
 </script>
 
 <!-- Introduction Section -->
-<section class="intro-section" bind:this={introSection}>
+<section class="intro-section">
 	<div class="intro-content">
 			<p class="intro-description">
 				Here I am, a single drop of rain, falling onto a Swiss mountain. I merge with the water, and slowly I become

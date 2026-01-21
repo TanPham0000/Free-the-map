@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import favicon from '$lib/assets/favicon.svg';
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import Preloader from '$lib/components/Preloader.svelte';

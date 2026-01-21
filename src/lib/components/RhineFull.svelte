@@ -1,25 +1,40 @@
 <script lang="ts">
-	import rhineFull from '$lib/assets/Rhine_full.png';
+	import Rhine_Full from '$lib/assets/Rhine_full.png';
 </script>
 
 <!-- Rhine Full Image Section (static for now) -->
 <section class="rhine-full-section">
-	<img src={rhineFull} alt="Rhine Full"/>
+	<img src={Rhine_Full} alt="Rhine Full"/>
 </section>
 
 <style>
 	.rhine-full-section {
-		animation: ScaleIn 1.2s ease-out 0.3s forwards;
+		position: relative;
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		background: #000;
 	}
-	
-	@keyframes ScaleIn { 
+
+	.rhine-full-section img {
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+		user-select: none;
+		pointer-events: none;
+		animation: scaleIn 1.2s ease-out 0.3s forwards;
+	}
+
+	@keyframes scaleIn {
 		from {
-			opacity:0;
-			transfrom: scale(0.5);
+			opacity: 0;
+			transform: scale(0.5);
 		}
 		to {
 			opacity: 1;
-			transform: scale(2);
+			transform: scale(1);
 		}
 	}
 </style>
