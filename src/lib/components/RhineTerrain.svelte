@@ -5,7 +5,10 @@
   import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
   import 'mapbox-gl/dist/mapbox-gl.css';
 <<<<<<< HEAD
+<<<<<<< HEAD
   import { VITE_MAPBOX_API_KEY } from '../config/apiKey.js';
+=======
+>>>>>>> parent of 8c34dac (3d map update)
 =======
 >>>>>>> parent of 8c34dac (3d map update)
 
@@ -18,7 +21,10 @@
 
   // The waypoints for our fly-through
 <<<<<<< HEAD
+<<<<<<< HEAD
   /** @type {Array<{center: [number, number], zoom: number, pitch: number, bearing: number}>} */
+=======
+>>>>>>> parent of 8c34dac (3d map update)
 =======
 >>>>>>> parent of 8c34dac (3d map update)
   const flightPath = [
@@ -29,12 +35,16 @@
 
   onMount(() => {
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (!VITE_MAPBOX_API_KEY) {
       console.error('Mapbox API key is missing. Check your .env file.');
       return;
     }
     
     mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
+=======
+    mapboxgl.accessToken = 'pk.eyJ1IjoidGFucGhhbTExMSIsImEiOiJjbGxtbGs0N2wxejJ2M2p0NjB6Y3VkemRrIn0.Z-ixfCD8ebpm1xGXt5Y4lQ';
+>>>>>>> parent of 8c34dac (3d map update)
 =======
     mapboxgl.accessToken = 'pk.eyJ1IjoidGFucGhhbTExMSIsImEiOiJjbGxtbGs0N2wxejJ2M2p0NjB6Y3VkemRrIn0.Z-ixfCD8ebpm1xGXt5Y4lQ';
 >>>>>>> parent of 8c34dac (3d map update)
