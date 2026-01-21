@@ -15,7 +15,7 @@
 	@keyframes ScaleIn { 
 		from {
 			opacity:0;
-			transform: scale(0.5);
+			transfrom: scale(0.5);
 		}
 		to {
 			opacity: 1;

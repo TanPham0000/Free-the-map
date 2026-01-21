@@ -14,12 +14,11 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  /** @type {import('mapbox-gl').Map} */
   let map;
-  /** @type {HTMLElement} */
   let mapContainer;
 
   // The waypoints for our fly-through
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   /** @type {Array<{center: [number, number], zoom: number, pitch: number, bearing: number}>} */
@@ -27,6 +26,17 @@
 >>>>>>> parent of 8c34dac (3d map update)
 =======
 >>>>>>> parent of 8c34dac (3d map update)
+=======
+//   const flightPath = [
+//   { name: "Start Rhine (Lai da Tuma)", center: [8.6558, 46.6403], zoom: 15.5, pitch: 65, bearing: -30 },
+//   { name: "Point 1", center: [8.6667, 46.6344], zoom: 15.8, pitch: 70, bearing: 20 },
+//   { name: "Point 3", center: [8.6728, 46.6325], zoom: 16.0, pitch: 75, bearing: 60 },
+//   { name: "Point 4", center: [8.6753, 46.6322], zoom: 16.2, pitch: 80, bearing: 80 },
+//   { name: "Point 6", center: [8.6864, 46.6356], zoom: 15.5, pitch: 70, bearing: 70 },
+//   { name: "Point 8", center: [8.7064, 46.6539], zoom: 14.5, pitch: 55, bearing: 30 },
+//   { name: "Point 9", center: [8.7356, 46.6628], zoom: 14.0, pitch: 50, bearing: 45 }
+// ];
+>>>>>>> parent of b2de698 (Code cleanup)
   const flightPath = [
     { center: [8.654, 46.638], zoom: 12, pitch: 45, bearing: 0 },   // Start high
     { center: [8.654, 46.638], zoom: 14.5, pitch: 70, bearing: -40 }, // Zoom into Lake
