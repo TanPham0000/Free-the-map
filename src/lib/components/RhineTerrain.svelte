@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import mapboxgl, { type Map } from 'mapbox-gl';
+  import type { Map } from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
   import { VITE_MAPBOX_API_KEY } from '$lib/config/apiKey.js';
 
@@ -20,6 +20,7 @@
   ];
 
   onMount(async () => {
+    const mapboxgl = (await import('mapbox-gl')).default;
     mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
 
     map = new mapboxgl.Map({
@@ -139,11 +140,7 @@
       trigger: ".rhine-terrain-section",
       start: "bottom 80%",
       end: "bottom bottom",
-      scrub: true,
-      onUpdate: (self) => {
-        // Gradually fade to black as we approach the end
-        gsap.to('.fade-to-black', { opacity: self.progress, duration: 0.1 });
-      }
+      scrub: true
     });
   }
   
@@ -153,7 +150,6 @@
   <div class="map-viewport">
     <div bind:this={mapContainer} class="map"></div>
   </div>
-    
 
   <div class="scroll-area">
     <section>
