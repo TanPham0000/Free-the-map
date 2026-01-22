@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import type { Map } from 'mapbox-gl';
+  import mapboxgl, { type Map } from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
   import { VITE_MAPBOX_API_KEY } from '$lib/config/apiKey.js';
 
@@ -19,33 +19,25 @@
     { center: [8.700, 46.650], zoom: 13, pitch: 60, bearing: 30 }  // Move downstream  
   ];
 
-onMount(async () => {
-    // 1. Import the actual library logic
-    const mapboxgl = (await import('mapbox-gl')).default;
-
-    if (!VITE_MAPBOX_API_KEY) {
-      console.error('Mapbox API key not found');
-      return;
-    }
-    
+  onMount(async () => {
     mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
 
     map = new mapboxgl.Map({
-    container: mapContainer,
-    style: 'mapbox://styles/tanpham111/cmkoj8pev001n01qx4ell39fa', // Custom style with muted colors
-    center: flightPath[0].center,
-    zoom: flightPath[0].zoom,
-    pitch: flightPath[0].pitch,
-    bearing: flightPath[0].bearing,
-    interactive: false,
-    attributionControl: false,
-    refreshExpiredTiles: false,
-    maxTileCacheSize: 20,
-    minZoom: 10,
-    maxZoom: 18
-  });
+      container: mapContainer,
+      style: 'mapbox://styles/tanpham111/cmkoj8pev001n01qx4ell39fa', // Custom style with muted colors
+      center: flightPath[0].center,
+      zoom: flightPath[0].zoom,
+      pitch: flightPath[0].pitch,
+      bearing: flightPath[0].bearing,
+      interactive: false,
+      attributionControl: false,
+      refreshExpiredTiles: false,
+      maxTileCacheSize: 20,
+      minZoom: 10,
+      maxZoom: 18
+    });
 
-  map.on('error', (e) => console.error('Mapbox error:', e?.error || e));
+    map.on('error', (e) => console.error('Mapbox error:', e?.error || e));
 
     map.on('style.load', () => {
       // 1. Add 3D Terrain
@@ -161,8 +153,7 @@ onMount(async () => {
   <div class="map-viewport">
     <div bind:this={mapContainer} class="map"></div>
   </div>
-  
-  
+    
 
   <div class="scroll-area">
     <section>
@@ -232,7 +223,6 @@ onMount(async () => {
 
   #intro-card {
     text-align: center;
-    
   }
 
 </style>
