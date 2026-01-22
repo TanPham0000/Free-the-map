@@ -23,7 +23,7 @@
 <!-- Title Screen Section with Parallax Mountain -->
 <section class="title-section" bind:this={titleSection}>
 	<div class="title-content">
-		<h1 class="main-title">Free the Map</h1>
+		<h1 class="main-title">United by rivers</h1>
 		<p class="subtitle">A journey from source to sea</p>
 	</div>
 </section>

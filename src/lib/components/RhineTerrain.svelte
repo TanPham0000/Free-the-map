@@ -168,14 +168,14 @@
     </section>
     <section>
       <div class="card" id="lake-card">
-        <h2>The Sacred Lake</h2>
-        <p>Nestled in the heart of the Swiss Alps, this is the cradle of Europe's great river.</p>
+        <h2>The Rhine</h2>
+        <p>I am small here. I feel cold ground and soft clay. You humans call this my beginning. To me, it feels like waking up.</p>
       </div>
     </section>
     <section>
       <div class="card" id="stream-card">
         <h2>Flowing East</h2>
-        <p>From here, the water begins its 1,230km journey to the North Sea.</p>
+        <p>I don’t know where I will end. I only know I cannot stand still. You measure me, name me, draw lines around me. I flow. That is enough.</p>
       </div>
     </section>
   </div>
@@ -201,19 +201,6 @@
   .map {
     width: 100%;
     height: 100%;
-  }
-
-  .fade-to-black {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 10;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.1s ease-out;
   }
 
   .scroll-area {
