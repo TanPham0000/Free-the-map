@@ -3,7 +3,6 @@
 	import RhineFull from '$lib/components/RhineFull.svelte';
 	import RhineTerrain from "$lib/components/RhineTerrain.svelte";
 	import RhineImageZoom from '$lib/components/RhineImageZoom.svelte';
-	import RiverLines from '$lib/components/RiverLines.svelte';
 	import TextReveal from '$lib/components/TextReveal.svelte';
 </script>
 
