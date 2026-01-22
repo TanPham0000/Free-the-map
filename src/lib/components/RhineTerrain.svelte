@@ -1,14 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import mapboxgl from 'mapbox-gl';
   import { gsap } from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import type { Map } from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
   import { VITE_MAPBOX_API_KEY } from '$lib/config/apiKey.js';
 
   gsap.registerPlugin(ScrollTrigger);
 
-  let map: mapboxgl.Map;
+  let map: Map;
   let mapContainer: HTMLElement;
 
   // The waypoints for our fly-through
@@ -19,11 +19,15 @@
     { center: [8.700, 46.650], zoom: 13, pitch: 60, bearing: 30 }  // Move downstream  
   ];
 
-  onMount(() => {
+onMount(async () => {
+    // 1. Import the actual library logic
+    const mapboxgl = (await import('mapbox-gl')).default;
+
     if (!VITE_MAPBOX_API_KEY) {
       console.error('Mapbox API key not found');
       return;
     }
+    
     mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
 
     map = new mapboxgl.Map({
