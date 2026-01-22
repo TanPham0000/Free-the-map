@@ -20,9 +20,9 @@
 </script>
 
 <section class="text-reveal-section" bind:this={revealSection}>
-	<h3 style:color={$revealProgress > 0.1 ? 'white' : '#666'}>On this side you call me "le Rhin"</h3>
-	<h3 style:color={$revealProgress > 0.4 ? 'white' : '#666'}>And on this side you call me "der Rhein"</h3>
-	<h3 style:color={$revealProgress > 0.5 ? 'white' : '#666'}>But I am the same river, uniting lands and people</h3>
+	<h3 style:color={$revealProgress > 0.1 ? 'white' : '#666'}>On one side you call me "le Rhin"</h3>
+	<h3 style:color={$revealProgress > 0.4 ? 'white' : '#666'}>And on the otherside you call me "der Rhein"</h3>
+	<h3 style:color={$revealProgress > 0.5 ? 'white' : '#666'}>But I am the same river, uniting lands and people.</h3>
 </section>
 
 <style>

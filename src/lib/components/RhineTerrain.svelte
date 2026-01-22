@@ -165,7 +165,6 @@
     </section>
     <section>
       <div class="card" id="stream-card">
-        <h2>Flowing East</h2>
         <p>I don’t know where I will end. I only know I cannot stand still. You measure me, name me, draw lines around me. I flow. That is enough.</p>
       </div>
     </section>
