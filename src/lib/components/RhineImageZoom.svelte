@@ -47,7 +47,7 @@
 		position: relative;
 		min-height: 150vh;
 		overflow: hidden;
-		background: linear-gradient(90deg,rgba(255, 0, 0, 0),rgba(0, 0, 0, 0));
+		background: linear-gradient(90deg, rgba(255, 0, 0, 0), rgba(0, 0, 0, 0));
 	}
 
 	.image-container {
