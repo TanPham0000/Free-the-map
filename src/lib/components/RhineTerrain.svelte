@@ -27,63 +27,71 @@
     mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
 
     map = new mapboxgl.Map({
-      container: mapContainer,
-      style: 'mapbox://styles/mapbox/satellite-v9?optimize=true', // Satellite is best for mountains
-      center: flightPath[0].center,
-      zoom: flightPath[0].zoom,
-      pitch: flightPath[0].pitch,
-      bearing: flightPath[0].bearing,
-      interactive: false,
-      attributionControl: false,
-      // PERFORMANCE BOOST: Prefetch tiles to prevent white gaps
-      refreshExpiredTiles: false,
-      maxTileCacheSize: 20,
-      minZoom: 10, // Prevents the map from ever trying to load the whole of Switzerland
-      maxZoom: 16  // Prevents it from loading ultra-heavy street-level detail
-    });
+    container: mapContainer,
+    style: 'mapbox://styles/tanpham111/cmkoj8pev001n01qx4ell39fa', // Custom style with muted colors
+    center: flightPath[0].center,
+    zoom: flightPath[0].zoom,
+    pitch: flightPath[0].pitch,
+    bearing: flightPath[0].bearing,
+    interactive: false,
+    attributionControl: false,
+    refreshExpiredTiles: false,
+    maxTileCacheSize: 20,
+    minZoom: 10,
+    maxZoom: 18
+  });
+
+  map.on('error', (e) => console.error('Mapbox error:', e?.error || e));
 
     map.on('style.load', () => {
       // 1. Add 3D Terrain
       map.addSource('mapbox-dem', {
-        'type': 'raster-dem',
-        'url': 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        'tileSize': 128,
-        'maxzoom': 11
+        type: 'raster-dem',
+        url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+        tileSize: 128,
+        maxzoom: 11
       });
       map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
       // 2. Add Atmosphere/Fog for "Nice" visuals
       map.setFog({
         'range': [-0.5, 1], // Distance range for fog effect low to high
-        'color': 'white',
+        'color': '#f0f0f0', // Light gray fog color
         'horizon-blend': 0.3
       });
+
       map.setLight({
-    anchor: 'viewport',
-    color: '#white',
-    intensity: 0.2 // Very low intensity for a moody, cloudy day
+        anchor: 'viewport',
+        color: '#ffffff',
+        intensity: 0.8 // Very low intensity for a moody, cloudy day
+      });
+
+      map.addLayer({
+        'id': 'cloud-layer',
+        'type': 'background',
+        'paint': {
+          'background-color': '#ffffff',
+          'background-opacity': 0.4 // Makes everything look like it's under a cloud blanket
+        }
+      });
     });
-    map.addLayer({
-    'id': 'cloud-layer',
-    'type': 'background',
-    'paint': {
-        'background-color': '#ffffff',
-        'background-opacity': 0.4 // Makes everything look like it's under a cloud blanket
-    }
-  });
-      // 3. Setup Scroll Animation
+
+    map.on('load', () => {
+      // 3. Setup Scroll Animation after map is fully loaded
       initScrollAnimation();
     });
-    
+
   });
 
   function initScrollAnimation() {
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: ".scroll-area",
+        trigger: ".rhine-terrain-section",
         start: "top top",
+        end: "bottom bottom",
         scrub: 3, // Increasing this from 1 to 2 or 3 gives the map "breathing room" to catch up
-        end: "bottom bottom"
+        pin: false, // Don't pin - allow normal scrolling
+        anticipatePin: 0
       }
     });
 
@@ -111,72 +119,129 @@
       });
     });
 
-    // Fade in the map when the section is reached
+    // Fade in/out the map based on scroll position
     ScrollTrigger.create({
       trigger: ".rhine-terrain-section",
       start: "top center",
+      end: "bottom center",
       onEnter: () => gsap.to('.map-viewport', { opacity: 1, duration: 1 }),
+      onLeave: () => {
+        // Fade map to black when leaving the section
+        gsap.to('.map-viewport', { opacity: 0, duration: 1 });
+        gsap.to('.fade-to-black', { opacity: 1, duration: 1 });
+      },
+      onEnterBack: () => {
+        // Fade back in when scrolling back up
+        gsap.to('.map-viewport', { opacity: 1, duration: 1 });
+        gsap.to('.fade-to-black', { opacity: 0, duration: 1 });
+      },
       onLeaveBack: () => gsap.to('.map-viewport', { opacity: 0, duration: 1 })
     });
+
+    // Fade to black overlay at the end of the section
+    ScrollTrigger.create({
+      trigger: ".rhine-terrain-section",
+      start: "bottom 80%",
+      end: "bottom bottom",
+      scrub: true,
+      onUpdate: (self) => {
+        // Gradually fade to black as we approach the end
+        gsap.to('.fade-to-black', { opacity: self.progress, duration: 0.1 });
+      }
+    });
   }
+  
 </script>
 
-<div class="map-viewport">
-  <div bind:this={mapContainer} class="map"></div>
-</div>
+<section class="rhine-terrain-section">
+  <div class="map-viewport">
+    <div bind:this={mapContainer} class="map"></div>
+  </div>
+  
+  
 
-<div class="scroll-area">
-  <section>
-    <div class="card">
-      <h2>The Source of the Rhine</h2>
-      <p>Our journey begins at Lai da Tuma, 2,345 meters above sea level.</p>
-    </div>
+  <div class="scroll-area">
+    <section>
+      <div class="card" id="intro-card">
+        <h2>From humble beginnings</h2>
+      </div>
+    </section>
+    <section>
+      <div class="card" id="lake-card">
+        <h2>The Sacred Lake</h2>
+        <p>Nestled in the heart of the Swiss Alps, this is the cradle of Europe's great river.</p>
+      </div>
+    </section>
+    <section>
+      <div class="card" id="stream-card">
+        <h2>Flowing East</h2>
+        <p>From here, the water begins its 1,230km journey to the North Sea.</p>
+      </div>
+    </section>
+  </div>
   </section>
-  <section>
-    <div class="card">
-      <h2>The Sacred Lake</h2>
-      <p>Nestled in the heart of the Swiss Alps, this is the cradle of Europe's great river.</p>
-    </div>
-  </section>
-  <section>
-    <div class="card">
-      <h2>Flowing East</h2>
-      <p>From here, the water begins its 1,230km journey to the North Sea.</p>
-    </div>
-  </section>
-</div>
 
 <style>
-  :global(body) { margin: 0; overflow-x: hidden; font-family: sans-serif; }
+  .rhine-terrain-section {
+    position: relative;
+    min-height: 300vh; /* Ensure enough scroll space */
+  }
 
   .map-viewport {
     position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 1;
     opacity: 0;
+    pointer-events: none;
   }
-  .map { width: 100%; height: 100%; }
+
+  .map {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fade-to-black {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease-out;
+  }
 
   .scroll-area {
     position: relative;
     z-index: 2;
+    min-height: 300vh; /* Match section height for proper scroll */
     pointer-events: none; /* Allows scrolling through to the map if needed */
   }
 
-  section {
+  .scroll-area section {
     height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 0 10%;
   }
 
   .card {
     pointer-events: auto;
-    background: rgba(255, 255, 255, 0.9);
     padding: 2rem;
     border-radius: 8px;
     max-width: 400px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    background-color: rgba(36, 36, 36, 0.8);
   }
+
+  #intro-card {
+    text-align: center;
+    
+  }
+
 </style>

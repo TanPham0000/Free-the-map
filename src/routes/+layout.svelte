@@ -3,6 +3,7 @@
 	import CustomCursor from '$lib/components/CustomCursor.svelte';
 	import Preloader from '$lib/components/Preloader.svelte';
 	import RhineScrollIndicator from '$lib/components/RhineScrollIndicator.svelte';
+	import '../app.css';
 
 	let { children } = $props();
 </script>

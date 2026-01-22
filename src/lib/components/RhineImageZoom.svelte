@@ -1,41 +1,33 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import RhineCropped from '$lib/assets/Rhine_Cropped.png';
 </script>
 
-<!-- Rhine Full Image Section (static for now) -->
-<section class="rhine-full-section">
-	<img src={RhineCropped} alt="RhineCropped"/>
+<!-- Rhine Cropped Image Section - Zoom to top left and fade to black -->
+<section class="rhine-zoom-section">
+	<div class="image-container">
+		<img 
+			src={RhineCropped} 
+			alt="Rhine Cropped"
+		/>
+	</div>
 </section>
 
 <style>
-	.rhine-full-section {
+	.rhine-zoom-section {
 		position: relative;
-		min-height: 100vh;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		min-height: 150vh;
 		overflow: hidden;
-		background: #000;
 	}
 
-	.rhine-full-section img {
+	.image-container img {
 		width: 100%;
-		height: auto;
+		height: 100%;
 		object-fit: cover;
+		object-position: top left;
 		user-select: none;
 		pointer-events: none;
-		animation: scaleIn 1.2s ease-out 0.3s forwards;
 	}
 
-	@keyframes scaleIn {
-		from {
-			opacity: 0;
-			transform: scale(0.5);
-		}
-		to {
-			opacity: 1;
-			transform: scale(1);
-		}
-	}
 </style>
 
