@@ -36,7 +36,7 @@
 		</p>
 		<p>
 			As the river descends from the Alps, it gathers strength and purpose. Each tributary adds to its story,
-			each bend in its course reveals new wonders. The Rhine is not just water flowing to the sea, it's a living
+			each bend in its course reveals new wonders. The Rhine is not just water flowing to the sea—it's a living
 			testament to the power of persistence and transformation.
 		</p>
 	</div>
@@ -140,7 +140,7 @@ Once in the sea I rise into the air, return as rain, and fall once more onto the
 		text-align: center;
 		padding : 1rem;
 		width: 50%;
-		word-break: normal;
+		word-break: break-all;
 	}
 
 	.text-content p {
