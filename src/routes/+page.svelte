@@ -1,11 +1,9 @@
 <script lang="ts">
-	import LazyLoad from '$lib/components/LazyLoad.svelte';
 	import TitleParallax from '$lib/components/TitleParallax.svelte';
 	import RhineFull from '$lib/components/RhineFull.svelte';
-	import RhineTerrain from "$lib/components/RhineTerrain.svelte";
 	import RhineImageZoom from '$lib/components/RhineImageZoom.svelte';
+	import RhineTerrain from '$lib/components/RhineTerrain.svelte';
 	import TextReveal from '$lib/components/TextReveal.svelte';
-	import CloudsZoom from '$lib/components/CloudsZoom.svelte';
 	import RiverLife from '$lib/components/RiverLife.svelte';
 	import FloatingEllipses from '$lib/components/FloatingEllipses.svelte';
 	
@@ -23,7 +21,7 @@
 
 <TitleParallax />
 <RhineFull />
-<LazyLoad component={() => import('$lib/components/RhineTerrain.svelte')} />
+<RhineTerrain />
 
 <!-- Text Section -->
 <section class="text-section">
@@ -72,7 +70,7 @@ I am never just a single line. I loosen, split, and send parts of myself outward
 Once in the sea I rise into the air, return as rain, and fall once more onto the mountain—where I begin again.
 </p>
 	<FloatingEllipses />
-</section>
+</section> 	
 
 <style>
 	:global(body) {

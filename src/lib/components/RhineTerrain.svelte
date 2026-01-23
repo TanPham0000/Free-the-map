@@ -10,6 +10,7 @@
 
   let map: Map;
   let mapContainer: HTMLElement;
+  let animationFrameId: number;
 
   // The waypoints for our fly-through
  const flightPath = [
@@ -146,12 +147,10 @@
       onLeave: () => {
         // Fade map to black when leaving the section
         gsap.to('.map-viewport', { opacity: 0, duration: 1 });
-        // gsap.to('.fade-to-black', { opacity: 1, duration: 1 });
       },
       onEnterBack: () => {
         // Fade back in when scrolling back up
         gsap.to('.map-viewport', { opacity: 1, duration: 1 });
-        // gsap.to('.fade-to-black', { opacity: 0, duration: 1 });
       },
       onLeaveBack: () => gsap.to('.map-viewport', { opacity: 0, duration: 1 })
     });

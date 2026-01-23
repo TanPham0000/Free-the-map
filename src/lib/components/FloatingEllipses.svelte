@@ -50,7 +50,7 @@
 		height: 10px;
 		border-radius: 50%;
 		background: rgba(255, 255, 255, 0.8);
-		box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20prgba(224, 228, 230, 0.4)4);
+		box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(224, 228, 230, 0.4);
 		pointer-events: none;
 	}
 </style>
