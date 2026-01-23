@@ -73,12 +73,6 @@ Once in the sea I rise into the air, return as rain, and fall once more onto the
 	<FloatingEllipses />
 </section> 	
 
-<CloudsZoom />
-
-<section>
-	
-</section>
-
 <style>
 	:global(body) {
 		background: #000;
