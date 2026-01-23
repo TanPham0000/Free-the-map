@@ -1,4 +1,5 @@
 <script lang="ts">
+	import LazyLoad from '$lib/components/LazyLoad.svelte';
 	import TitleParallax from '$lib/components/TitleParallax.svelte';
 	import RhineFull from '$lib/components/RhineFull.svelte';
 	import RhineTerrain from "$lib/components/RhineTerrain.svelte";
@@ -21,7 +22,7 @@
 	<h3>Content goes here</h3>
 </section>
 <RhineFull />
-<RhineTerrain />
+<LazyLoad component={() => import('$lib/components/RhineTerrain.svelte')} />
 
 <!-- Text Section -->
 <section class="text-section">

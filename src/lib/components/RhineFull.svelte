@@ -4,7 +4,7 @@
 
 <!-- Rhine Full Image Section (static for now) -->
 <section class="rhine-full-section">
-	<img src={Rhine_Full} alt="Rhine Full"/>
+	<img src={Rhine_Full} alt="Rhine Full" loading="lazy"/>
 </section>
 
 <style>
