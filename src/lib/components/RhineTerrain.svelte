@@ -57,11 +57,16 @@
         'horizon-blend': 0.3
       });
 
-      map.setLight({
-        anchor: 'viewport',
-        color: '#ffffff',
-        intensity: 0.8 // Very low intensity for a moody, cloudy day
-      });
+      map.setLights([
+      {
+        id: 'main-light', // Required ID
+        type: 'flat',
+        properties: {
+          anchor: 'map',
+          color: '#ffffff',
+          intensity: 0.8
+         }
+      }]);
 
       map.addLayer({
         'id': 'cloud-layer',
@@ -125,12 +130,12 @@
       onLeave: () => {
         // Fade map to black when leaving the section
         gsap.to('.map-viewport', { opacity: 0, duration: 1 });
-        gsap.to('.fade-to-black', { opacity: 1, duration: 1 });
+        // gsap.to('.fade-to-black', { opacity: 1, duration: 1 });
       },
       onEnterBack: () => {
         // Fade back in when scrolling back up
         gsap.to('.map-viewport', { opacity: 1, duration: 1 });
-        gsap.to('.fade-to-black', { opacity: 0, duration: 1 });
+        // gsap.to('.fade-to-black', { opacity: 0, duration: 1 });
       },
       onLeaveBack: () => gsap.to('.map-viewport', { opacity: 0, duration: 1 })
     });
@@ -186,6 +191,7 @@
     z-index: 1;
     opacity: 0;
     pointer-events: none;
+    will-change: transform, opacity;
   }
 
   .map {
