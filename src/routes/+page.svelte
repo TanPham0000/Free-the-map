@@ -5,6 +5,9 @@
 	import RhineTerrain from "$lib/components/RhineTerrain.svelte";
 	import RhineImageZoom from '$lib/components/RhineImageZoom.svelte';
 	import TextReveal from '$lib/components/TextReveal.svelte';
+	import CloudsZoom from '$lib/components/CloudsZoom.svelte';
+	import RiverLife from '$lib/components/RiverLife.svelte';
+	import FloatingEllipses from '$lib/components/FloatingEllipses.svelte';
 	
 </script>
 
@@ -19,9 +22,6 @@
 </section>
 
 <TitleParallax />
-<section>
-	<h3>Content goes here</h3>
-</section>
 <RhineFull />
 <LazyLoad component={() => import('$lib/components/RhineTerrain.svelte')} />
 
@@ -46,14 +46,39 @@
 
 <TextReveal />
 
-<section class="text-section">
+<section class="narrative-section">
 	<p>I flow for 1,324 kilometers, making me one of Europe’s longest rivers. For centuries, people have followed my banks, traded along my waters, and built cities beside me. They’ve given me borders, names, and stories but I simply keep flowing, just being me.</p>
+	<FloatingEllipses />
 </section> 
 
-<section class="text-section" id="second-text-section">
-	<p>I carry many lives within me. Bream, perch, eel, roach, zander and dace move through my waters, and even the majestic sturgeon is finding its way back.</p>
-	<p>They travel through all of me, drifting from my wide mouth to my narrow stretches, slipping into side branches like the Kromme Rijn to spawn and migrate, with locks acting as vital gateways along the way.</p>
-</section> 
+<RiverLife />
+
+<section class="narrative-section">
+	<p>Plastic and waste
+I feel heavier than I used to. Plastic and debris drift along my surface and sink into my depths, far more than people once believed. Every day, tens of thousands of pieces move with my current, slowly wearing me down as I carry them toward the sea.
+What flows into me doesn’t always fade away. Industrial chemicals and traces of medicine linger in my waters, changing what I can safely give back. As more people lean on me for drinking water, the pressure tightens. I am asked to be clean while still carrying the weight of human use.</p>
+	<FloatingEllipses />
+</section>
+
+<section class="narrative-section">
+	<p>My waters are warming, slowly but steadily, making it harder for cold-loving life to stay with me as I move forward in time.
+I am never just a single line. I loosen, split, and send parts of myself outward. In small streams, side arms, and quiet branches, I reach places my main flow cannot. These offshoots slow me down, give me space to breathe, and let life settle and return.
+</p>
+	<FloatingEllipses />
+</section>
+
+<section class="narrative-section">
+	<p>People say my journey ends in the North Sea. Before that, I loosen myself, split, and spread out becoming many instead of one. Through three main paths, my water finally reaches the sea, each finding its own way outward and spreading trough the whole world.
+Once in the sea I rise into the air, return as rain, and fall once more onto the mountain—where I begin again.
+</p>
+	<FloatingEllipses />
+</section>
+
+<CloudsZoom />
+
+<section>
+	
+</section>
 
 <style>
 	:global(body) {
@@ -123,12 +148,37 @@
 		margin-bottom: 1.5rem;
 	}
 	
-	#second-text-section {
+
+	/* Narrative Sections */
+	.narrative-section {
+		position: relative;
+		min-height: 100vh;
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		width: 60%;
 		justify-content: center;
+		padding: 4rem 2rem;
+		color: #e0f7ff;
+		animation: fadeIn 1.5s ease-out;
+	}
+
+	.narrative-section p {
+		max-width: 800px;
+		text-align: center;
+		line-height: 1.8;
+		margin: 0 auto;
+		font-size: 1.1rem;
+		text-shadow: 0 0 10px rgba(0, 191, 255, 0.3);
+	}
+
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 </style>

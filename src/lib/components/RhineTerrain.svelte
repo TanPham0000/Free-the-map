@@ -12,11 +12,12 @@
   let mapContainer: HTMLElement;
 
   // The waypoints for our fly-through
-  const flightPath: { center: [number, number]; zoom: number; pitch: number; bearing: number }[] = [
-    { center: [8.654, 46.638], zoom: 16.5, pitch: 85, bearing: -30 },   // Start high
-    { center: [8.654, 46.638], zoom: 17, pitch: 70, bearing: -40 }, // Zoom into Lake
-    { center: [8.670, 46.642], zoom: 14, pitch: 80, bearing: 60 }, // Follow the stream
-    { center: [8.700, 46.650], zoom: 13, pitch: 60, bearing: 30 }  // Move downstream  
+ const flightPath = [
+    { name: "Rossbodenstock", center: [8.6511, 46.6353], zoom: 15, pitch: 45, bearing: 0 },
+    { name: "Lake Hover", center: [8.6700, 46.6325], zoom: 17, pitch: 45, bearing: 35 },
+    { name: "Valley Descent", center: [8.6781, 46.6325], zoom: 15.8, pitch: 45, bearing: 0 },
+    { name: "In the Valley", center: [8.6906, 46.6453], zoom: 15.0, pitch: 85, bearing: 10 },
+    { name: "Zoom Out", center: [8.7042, 46.6606], zoom: 13.0, pitch: 45, bearing: 0 }
   ];
 
   onMount(async () => {
@@ -25,64 +26,46 @@
 
     map = new mapboxgl.Map({
       container: mapContainer,
-      style: 'mapbox://styles/tanpham111/cmkoj8pev001n01qx4ell39fa', // Custom style with muted colors
-      center: flightPath[0].center,
+      style: 'mapbox://styles/tanpham111/cmkoj8pev001n01qx4ell39fa',
+      center: flightPath[0].center as [number, number],
       zoom: flightPath[0].zoom,
       pitch: flightPath[0].pitch,
       bearing: flightPath[0].bearing,
       interactive: false,
       attributionControl: false,
-      refreshExpiredTiles: false,
-      maxTileCacheSize: 20,
-      minZoom: 10,
-      maxZoom: 18
+      // PERFORMANCE: Prevent unnecessary background computation
+      preserveDrawingBuffer: false, 
+      trackResize: false,
+      performanceMetrics: false,
+      fadeDuration: 0 // Disable tile fading to save GPU
     });
 
-    map.on('error', (e) => console.error('Mapbox error:', e?.error || e));
-
     map.on('style.load', () => {
-      // 1. Add 3D Terrain
       map.addSource('mapbox-dem', {
         type: 'raster-dem',
         url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
-        tileSize: 128,
-        maxzoom: 11
+        tileSize: 256, // 256 is often more efficient for 3D than 128
+        maxzoom: 12
       });
       map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
-      // 2. Add Atmosphere/Fog for "Nice" visuals
+      // RESOURCE SAVING: Tighten fog to "cull" (ignore) distant mountains
       map.setFog({
-        'range': [-0.5, 1], // Distance range for fog effect low to high
-        'color': '#f0f0f0', // Light gray fog color
-        'horizon-blend': 0.3
-      });
-
-      map.setLights([
-      {
-        id: 'main-light', // Required ID
-        type: 'flat',
-        properties: {
-          anchor: 'map',
-          color: '#ffffff',
-          intensity: 0.8
-         }
-      }]);
-
-      map.addLayer({
-        'id': 'cloud-layer',
-        'type': 'background',
-        'paint': {
-          'background-color': '#ffffff',
-          'background-opacity': 0.4 // Makes everything look like it's under a cloud blanket
-        }
+        'range': [0.2, 2.5], 
+        'color': '#f0f0f0',
+        'horizon-blend': 0.1
       });
     });
 
     map.on('load', () => {
-      // 3. Setup Scroll Animation after map is fully loaded
       initScrollAnimation();
+      // Pre-fetch tiles for the whole route
+      map.setPrefetchZoomDelta(2);
     });
 
+    return () => {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
   });
 
   function initScrollAnimation() {
@@ -91,10 +74,43 @@
         trigger: ".rhine-terrain-section",
         start: "top top",
         end: "bottom bottom",
-        scrub: 3, // Increasing this from 1 to 2 or 3 gives the map "breathing room" to catch up
-        pin: false, // Don't pin - allow normal scrolling
-        anticipatePin: 0
+        scrub: 2.5, // Smooth glide
       }
+    });
+
+    // We animate a "proxy" object instead of the map directly
+    const cameraProxy = { 
+        lng: flightPath[0].center[0], 
+        lat: flightPath[0].center[1], 
+        zoom: flightPath[0].zoom, 
+        pitch: flightPath[0].pitch, 
+        bearing: flightPath[0].bearing 
+    };
+
+    flightPath.forEach((point, i) => {
+      if (i === 0) return;
+
+      tl.to(cameraProxy, {
+        lng: point.center[0],
+        lat: point.center[1],
+        zoom: point.zoom,
+        pitch: point.pitch,
+        bearing: point.bearing,
+        duration: 1,
+        ease: "none",
+        onUpdate: () => {
+          // Wrap map updates in requestAnimationFrame for buttery smoothness
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
+          animationFrameId = requestAnimationFrame(() => {
+            map.jumpTo({
+              center: [cameraProxy.lng, cameraProxy.lat],
+              zoom: cameraProxy.zoom,
+              pitch: cameraProxy.pitch,
+              bearing: cameraProxy.bearing
+            });
+          });
+        }
+      });
     });
 
     // Animate between waypoints

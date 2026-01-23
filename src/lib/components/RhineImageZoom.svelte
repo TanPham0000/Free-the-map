@@ -18,7 +18,7 @@
 			const scrollY = window.scrollY;
 			const progress = Math.max(0, Math.min(1, (scrollY - sectionTop) / sectionHeight));
 			scaleStore.set(1 + progress * 0.6); // Zoom to 1.5x
-			opacityStore.set(1 - progress);
+			opacityStore.set(0.9 - progress);
 		};
 
 		window.addEventListener('scroll', handleScroll);
