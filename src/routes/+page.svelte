@@ -5,6 +5,7 @@
 	import RhineTerrain from "$lib/components/RhineTerrain.svelte";
 	import RhineImageZoom from '$lib/components/RhineImageZoom.svelte';
 	import TextReveal from '$lib/components/TextReveal.svelte';
+	
 </script>
 
 <!-- Introduction Section -->
