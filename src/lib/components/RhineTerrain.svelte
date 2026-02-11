@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
   import type { Map } from 'mapbox-gl';
   import 'mapbox-gl/dist/mapbox-gl.css';
   import { VITE_MAPBOX_API_KEY } from '$lib/config/apiKey.js';
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -14,15 +14,15 @@
   // The waypoints for our fly-through
   const flightPath: { center: [number, number]; zoom: number; pitch: number; bearing: number }[] = [
     { center: [8.654, 46.638], zoom: 16.5, pitch: 85, bearing: -30 },   // Start high
-    { center: [8.654, 46.638], zoom: 17, pitch: 70, bearing: -40 }, // Zoom into Lake
+    // { center: [8.654, 46.638], zoom: 17, pitch: 70, bearing: -40 }, // Zoom into Lake
     { center: [8.670, 46.642], zoom: 14, pitch: 80, bearing: 60 }, // Follow the stream
     { center: [8.700, 46.650], zoom: 13, pitch: 60, bearing: 30 }  // Move downstream  
   ];
 
   onMount(async () => {
     const mapboxgl = (await import('mapbox-gl')).default;
-    mapboxgl.accessToken = VITE_MAPBOX_API_KEY;
-
+    mapboxgl.accessToken = VITE_MAPBOX_API_KEY; 
+    
     map = new mapboxgl.Map({
       container: mapContainer,
       style: 'mapbox://styles/tanpham111/cmkoj8pev001n01qx4ell39fa', // Custom style with muted colors

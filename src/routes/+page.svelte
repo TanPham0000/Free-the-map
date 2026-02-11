@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import TitleParallax from '$lib/components/TitleParallax.svelte';
 	import RhineFull from '$lib/components/RhineFull.svelte';
 	import RhineImageZoom from '$lib/components/RhineImageZoom.svelte';
@@ -7,7 +6,7 @@
 	import TextReveal from '$lib/components/TextReveal.svelte';
 	import RiverLife from '$lib/components/RiverLife.svelte';
 	import FloatingEllipses from '$lib/components/FloatingEllipses.svelte';
-	
+
 </script>
 
 <!-- Introduction Section -->
@@ -21,8 +20,8 @@
 </section>
 
 <TitleParallax />
-<RhineFull />
 <RhineTerrain />
+<RhineFull />
 
 <!-- Text Section -->
 <section class="text-section">
