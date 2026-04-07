@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount } from "svelte";
 
-	import clouds from '$lib/assets/Clouds.png';
-	import foregroundMountain from '$lib/assets/Foreground_mountain.png';
+	import clouds from "$lib/assets/Clouds.png";
+	import foregroundMountain from "$lib/assets/Foreground_mountain.png";
 
 	let titleSection: HTMLElement;
 	let mountainTopSection: HTMLElement;
@@ -14,9 +14,9 @@
 	}
 
 	onMount(() => {
-		window.addEventListener('scroll', handleScroll, { passive: true });
+		window.addEventListener("scroll", handleScroll, { passive: true });
 		handleScroll();
-		return () => window.removeEventListener('scroll', handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
 	});
 </script>
 
@@ -47,7 +47,7 @@
 
 <style>
 	h1 {
-		font-family: 'Times New Roman', Times, serif;
+		font-family: "Times New Roman", Times, serif;
 		font-weight: 700;
 		color: white;
 	}
@@ -118,10 +118,22 @@
 		z-index: 5;
 		width: 100%;
 		scale: 1.1;
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			black 50%,
+			transparent 100%
+		);
+		mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 	}
 
 	.foreground-mountain {
 		z-index: 3;
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			black 50%,
+			transparent 100%
+		);
+		mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
 	}
 
 	@keyframes fadeInScale {
@@ -150,4 +162,3 @@
 		}
 	}
 </style>
-
