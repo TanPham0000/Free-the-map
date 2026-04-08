@@ -11,7 +11,10 @@
 				</p>
 			</li>
 			<li>
-				<p>in opdracht en onder begeleiding van Henk van Houtum</p>
+				<p>
+					Voor het project Free the Map, in opdracht en onder
+					begeleiding van Henk van Houtum.
+				</p>
 				<strong>Begeleiding namens CMD:</strong>
 				<p>Jan-Jaap Rijpkema</p>
 				<a style="text-decoration: underline;" href="www.freethemap.org"
