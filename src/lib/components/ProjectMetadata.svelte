@@ -5,12 +5,17 @@
 		<ul>
 			<li>
 				<strong>Hogeschool van Amsterdam</strong>
-				Information Design 2026:
+				Minor Information Design 2026:
 				<p>Tân Pham, Noa Van Den Berg, Sharena Diesveld</p>
+				<a href="mailto:hello@tanpham.nl">Tân Pham</a>
+				<p>Project Free the Map</p>
 			</li>
 			<li>
-				<strong>Radboud Universiteit</strong>
-				Henk van Houtum, under the guidance of Jan-Jaap Rijpkema
+				<strong></strong>
+				<p>under the guidance of Henk van Houtum and Begeleiding</p>
+				<strong>namens CMD:</strong>
+				<p>Jan-Jaap Rijpkema</p>
+				<a href="www.freethemap.org">www.freethemap.org</a>
 			</li>
 		</ul>
 	</div>
