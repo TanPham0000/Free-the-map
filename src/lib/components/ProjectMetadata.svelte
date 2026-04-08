@@ -14,7 +14,9 @@
 				<p>in opdracht en onder begeleiding van Henk van Houtum</p>
 				<strong>Begeleiding namens CMD:</strong>
 				<p>Jan-Jaap Rijpkema</p>
-				<a href="www.freethemap.org">www.freethemap.org</a>
+				<a style="text-decoration: underline;" href="www.freethemap.org"
+					>www.freethemap.org</a
+				>
 			</li>
 		</ul>
 	</div>
