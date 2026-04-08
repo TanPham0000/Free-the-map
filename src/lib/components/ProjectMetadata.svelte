@@ -1,20 +1,17 @@
 <footer class="meta-footer">
 	<div class="meta-content">
-		<h3>Credits</h3>
-		<p>Created in collaboration with:</p>
+		<h3><strong>Project Free the Map</strong></h3>
 		<ul>
 			<li>
-				<strong
-					>Hogeschool van Amsterdam Minor Information Design 2026:</strong
-				>
+				<strong>Hogeschool van Amsterdam</strong>
+				<p>Minor Information Design 2026:</p>
 				<p>
 					<a href="mailto:hello@tanpham.nl">Tân Pham</a>, Noa Van Den
 					Berg, Sharena Diesveld
 				</p>
-				<h3><strong>Project Free the Map</strong></h3>
 			</li>
 			<li>
-				<p>under the guidance of Henk van Houtum</p>
+				<p>in opdracht en onder begeleiding van Henk van Houtum</p>
 				<strong>Begeleiding namens CMD:</strong>
 				<p>Jan-Jaap Rijpkema</p>
 				<a href="www.freethemap.org">www.freethemap.org</a>
